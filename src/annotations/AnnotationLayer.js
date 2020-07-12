@@ -42,8 +42,8 @@ export default class AnnotationLayer extends EventEmitter {
       this.tools = new DrawingTools(this.g);
       this.tools.on('cancel', this.selectCurrentHover);
       this.tools.on('complete', shape => {
-        this.emit('createSelection', shape.annotation);
-        this.selectShape(shape);
+        this.selectShape(shape, true);
+        this.emit('createSelection', { selection: shape.annotation, element: shape });
       });
 
       this.enableDrawing();
@@ -164,7 +164,7 @@ export default class AnnotationLayer extends EventEmitter {
 
     const readOnly = this.readOnly || annotation.readOnly;
 
-    if (!(readOnly || this.headless)) {
+    if (!readOnly) {
       this.disableDrawing();
 
       if (shape.annotation.isSelection)
@@ -173,7 +173,6 @@ export default class AnnotationLayer extends EventEmitter {
       const toolForShape = this.tools.forShape(shape);
 
       if (toolForShape?.supportsModify) {
-
         // Replace the shape with an editable version
         shape.parentNode.removeChild(shape);
 

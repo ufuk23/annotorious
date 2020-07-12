@@ -43,8 +43,14 @@ export default class ImageAnnotator extends Component  {
     this.annotationLayer.destroy();
   }
 
-  handleCreateSelection = selection => 
-    this.props.onSelectionCreated(selection.clone());
+  handleCreateSelection = ({ selection, element }) => {
+    this.setState({ 
+      selectedAnnotation: selection,
+      selectedDOMElement: element
+    }, () => {
+      this.props.onSelectionCreated(selection.clone());
+    });
+  }
 
   handleSelect = evt => {
     const { annotation, element, skipEvent } = evt;
@@ -138,10 +144,14 @@ export default class ImageAnnotator extends Component  {
   applyTemplate = (bodies, openEditor) =>
     this.setState({ applyTemplate: bodies, applyImmediately: !openEditor });
 
-  createFromSelection = body => {
-    if (this.selectAnnotation?.isSelection) {
-      const annotation = this.selectAnnotation.clone({ body }).toAnnotation();
-      this.onCreateOrUpdateAnnotation['onAnnotationCreated'](annotation);
+  updateSelected = body => {
+    const { selectedAnnotation } = this.state;
+    if (selectedAnnotation?.isSelection) {
+      const annotation = selectedAnnotation.clone({ body }).toAnnotation();
+      this.onCreateOrUpdateAnnotation('onAnnotationCreated')(annotation);
+    } else if (selectedAnnotation) {
+      const updated = selectedAnnotation.clone({ body });
+      this.onCreateOrUpdateAnnotation('onAnnotationUpdated')(updated, annotation);
     }
   }
     

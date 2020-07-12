@@ -161,6 +161,10 @@ export class Annotorious {
   setAnnotations = annotations => {
     const webannotations = annotations.map(a => new WebAnnotation(a));
     this._app.current.setAnnotations(webannotations);
+    
+  updateSelected = b => {
+    const bodies = Array.isArray(b) ? b : [ b ];
+    this._app.current.updateSelected(bodies);
   }
 
   setAuthInfo = authinfo =>
