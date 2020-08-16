@@ -61,26 +61,7 @@
         var anno = Annotorious.init({
           image: 'hallstatt',
           locale: 'auto',
-          tagVocabulary: [ 'Animal', 'Artwork', 'Building', 'Person', 'Vegetation', 'Waterbody' ],
-          headless: true
-        });
-
-        var body = {
-          type: 'TextualBody',
-          purpose: 'tagging',
-          value: 'HeadlessTag'
-        };
-
-        anno.on('createSelection', function(selection) {
-          anno.updateSelected(body);
-        });
-
-        // anno.deleteSelected() 
-        // anno.updateSelected(body)
-        // anno.updateSelected() // updates only the target
-
-        anno.on('changeSelectionTarget', function(target) {
-          console.log('selection changed', target);
+          tagVocabulary: [ 'Animal', 'Artwork', 'Building', 'Person', 'Vegetation', 'Waterbody' ]
         });
 
         anno.on('selectAnnotation', function(annotation) {

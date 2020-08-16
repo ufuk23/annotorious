@@ -42,8 +42,8 @@ export default class AnnotationLayer extends EventEmitter {
       this.tools = new DrawingTools(this.g);
       this.tools.on('cancel', this.selectCurrentHover);
       this.tools.on('complete', shape => {
-        this.selectShape(shape, true);
         this.emit('createSelection', { selection: shape.annotation, element: shape });
+        this.selectShape(shape, true);
       });
 
       this.enableDrawing();
