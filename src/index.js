@@ -118,6 +118,12 @@ export class Annotorious {
   clearAuthInfo = () =>
     Environment.user = null;
 
+  // Replaces functionality of applyTemplate
+  createFromSelection = b => {
+    const bodies = Array.isArray(b) ? b : [ b ];
+    this._app.current.createFromSelection(bodies);
+  }
+
   destroy = () => {
     ReactDOM.unmountComponentAtNode(this._appContainerEl);
     this._wrapperEl.parentNode.insertBefore(this._imageEl, this._wrapperEl);

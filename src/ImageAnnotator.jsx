@@ -137,6 +137,13 @@ export default class ImageAnnotator extends Component  {
 
   applyTemplate = (bodies, openEditor) =>
     this.setState({ applyTemplate: bodies, applyImmediately: !openEditor });
+
+  createFromSelection = body => {
+    if (this.selectAnnotation?.isSelection) {
+      const annotation = this.selectAnnotation.clone({ body }).toAnnotation();
+      this.onCreateOrUpdateAnnotation['onAnnotationCreated'](annotation);
+    }
+  }
     
   render() {
     // The editor should open under normal conditions (no headless mode, annotation was selected),
