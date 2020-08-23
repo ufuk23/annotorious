@@ -148,24 +148,24 @@ export default class ImageAnnotator extends Component  {
     const { selectedAnnotation } = this.state;
     if (selectedAnnotation?.isSelection) {
       const annotation = selectedAnnotation.clone({ body }).toAnnotation();
-      this.onCreateOrUpdateAnnotation('onAnnotationCreated')(annotation);
+      if (this.props.headless)
+        this.onCreateOrUpdateAnnotation('onAnnotationCreated')(annotation);
+      else 
+        this.setState({ selectedAnnotation: annotation });
     } else if (selectedAnnotation) {
       const updated = selectedAnnotation.clone({ body });
-      this.onCreateOrUpdateAnnotation('onAnnotationUpdated')(updated, annotation);
+
+      if (this.props.headless)
+        this.onCreateOrUpdateAnnotation('onAnnotationUpdated')(updated, annotation);
+      else 
+        this.setState({ selectedAnnotation: updated });
     }
   }
     
   render() {
     // The editor should open under normal conditions (no headless mode, annotation was selected),
     // or if we are in headless mode for immediate template application 
-    const normalConditions = this.state.selectedAnnotation && !this.props.headless;
-
-    const headlessApply =
-      this.props.headless && 
-      this.state.applyTemplate && 
-      this.state.selectedAnnotation?.isSelection;
-
-    const open = (normalConditions == true || headlessApply == true);
+    const open = this.state.selectedAnnotation && !this.props.headless;
 
     const readOnly = this.props.readOnly || this.state.selectedAnnotation?.readOnly
 
@@ -175,8 +175,6 @@ export default class ImageAnnotator extends Component  {
         annotation={this.state.selectedAnnotation}
         selectedElement={this.state.selectedDOMElement}
         readOnly={readOnly}
-        applyTemplate={this.state.applyTemplate}
-        applyImmediately={this.state.applyImmediately}
         onAnnotationCreated={this.onCreateOrUpdateAnnotation('onAnnotationCreated')}
         onAnnotationUpdated={this.onCreateOrUpdateAnnotation('onAnnotationUpdated')}
         onAnnotationDeleted={this.onDeleteAnnotation}

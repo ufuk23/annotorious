@@ -119,9 +119,9 @@ export class Annotorious {
     Environment.user = null;
 
   // Replaces functionality of applyTemplate
-  createFromSelection = b => {
+  updateSelected = b => {
     const bodies = Array.isArray(b) ? b : [ b ];
-    this._app.current.createFromSelection(bodies);
+    this._app.current.updateSelected(bodies);
   }
 
   destroy = () => {

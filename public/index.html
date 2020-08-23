@@ -61,37 +61,29 @@
         var anno = Annotorious.init({
           image: 'hallstatt',
           locale: 'auto',
-          tagVocabulary: [ 'Animal', 'Artwork', 'Building', 'Person', 'Vegetation', 'Waterbody' ]
+          headless: true
         });
 
-        anno.on('selectAnnotation', function(annotation) {
-          console.log('selected', annotation);
+        var body = {
+          type: 'TextualBody',
+          purpose: 'tagging',
+          value: 'AutoTag'
+        };
+
+        anno.on('createSelection', function(selection) {
+          console.log('selection', selection);
+          anno.updateSelected(body);
         });
 
         anno.on('createAnnotation', function(a) {
           console.log('created', a);
         });
 
-        anno.on('updateAnnotation', function(annotation, previous) {
-          console.log('updated', previous, 'with', annotation);
+        anno.on('selectAnnotation', function(annotation) {
+          console.log('selected', annotation);
         });
 
-        anno.on('deleteAnnotation', function(annotation) {
-          console.log('deleted', annotation);
-        });
-        
-        anno.on('mouseEnterAnnotation', function(annotation) {
-          console.log('enter', annotation);
-        });
-        
-        anno.on('mouseLeaveAnnotation', function(annotation) {
-          console.log('leave', annotation);
-        });
-
-        anno.loadAnnotations('annotations.w3c.json');
-
-        anno.setDrawingTool('rect');
-        
+        /*
         var toolToggle = document.getElementById('current-tool');
         toolToggle.addEventListener('click', function() {
           if (toolToggle.innerHTML == 'RECTANGLE') {
@@ -102,6 +94,7 @@
             anno.setDrawingTool('rect');
           }
         });
+        */
       })()
     </script>
   </body>
