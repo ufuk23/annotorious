@@ -1,6 +1,7 @@
 import EventEmitter from 'tiny-emitter';
 import RubberbandRectTool from './rectangle/RubberbandRectTool';
 import RubberbandPolygonTool from './polygon/RubberbandPolygonTool';
+import RubberbandLineTool from './line/RubberbandLineTool';
 
 /** The drawing tool 'registry' **/
 class DrawingToolRegistry extends EventEmitter {
@@ -23,6 +24,7 @@ class DrawingToolRegistry extends EventEmitter {
   setDefaults() {
     this.registerTool('rect', RubberbandRectTool);
     this.registerTool('polygon', RubberbandPolygonTool);
+	   this.registerTool('line', RubberbandLineTool);
     this.setCurrent('rect');
   }
 
