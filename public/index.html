@@ -39,7 +39,7 @@
         color:#3f3f3f;
       }
     </style>
-  </head>
+  <script type="text/javascript" src="annotorious.min.js"></script></head>
   <body>
     <div id="content">    
       <h1>Annotorious: Basic Example</h1>  
@@ -57,21 +57,15 @@
     </div>
   </div>
     <script>
+	
+	var anno;
       (function() {
-        var anno = Annotorious.init({
+        anno = Annotorious.init({
           image: 'hallstatt',
           locale: 'auto',
           tagVocabulary: [ 'Animal', 'Artwork', 'Building', 'Person', 'Vegetation', 'Waterbody' ]
         });
-
-        anno.on('createSelection', function(selection) {
-          console.log('created selection', selection);
-        });
-
-        anno.on('changeSelectionTarget', function(target) {
-          console.log('selection changed', target);
-        });
-
+        
         anno.on('selectAnnotation', function(annotation) {
           console.log('selected', annotation);
         });
@@ -88,14 +82,6 @@
           console.log('deleted', annotation);
         });
         
-        anno.on('mouseEnterAnnotation', function(annotation) {
-          console.log('enter', annotation);
-        });
-        
-        anno.on('mouseLeaveAnnotation', function(annotation) {
-          console.log('leave', annotation);
-        });
-
         anno.loadAnnotations('annotations.w3c.json');
 
         anno.setDrawingTool('rect');
@@ -105,6 +91,9 @@
           if (toolToggle.innerHTML == 'RECTANGLE') {
             toolToggle.innerHTML = 'POLYGON';
             anno.setDrawingTool('polygon');
+          } else if (toolToggle.innerHTML == 'POLYGON') {
+            toolToggle.innerHTML = 'LINE';
+            anno.setDrawingTool('line');
           } else {
             toolToggle.innerHTML = 'RECTANGLE';
             anno.setDrawingTool('rect');
