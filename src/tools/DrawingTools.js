@@ -2,15 +2,22 @@ import EventEmitter from 'tiny-emitter';
 import RubberbandRectTool from './rectangle/RubberbandRectTool';
 import RubberbandPolygonTool from './polygon/RubberbandPolygonTool';
 import RubberbandLineTool from './line/RubberbandLineTool';
+import RubberbandCircleTool from './circle/RubberbandCircleTool';
 
 /** The drawing tool 'registry' **/
 class DrawingToolRegistry extends EventEmitter {
  
-  constructor(g) {
+  constructor(g, config, env) {
     super(); 
 
     // SVG annotation layer group
     this._g = g;
+
+    // Annotorious user config
+    this._config = config;
+
+    // Environment settings
+    this._env = env;
 
     // Registered tool implementations
     this._registered = {};
@@ -24,7 +31,8 @@ class DrawingToolRegistry extends EventEmitter {
   setDefaults() {
     this.registerTool('rect', RubberbandRectTool);
     this.registerTool('polygon', RubberbandPolygonTool);
-	   this.registerTool('line', RubberbandLineTool);
+	this.registerTool('line', RubberbandLineTool);
+	this.registerTool('circle', RubberbandCircleTool);
     this.setCurrent('rect');
   }
 
@@ -40,7 +48,7 @@ class DrawingToolRegistry extends EventEmitter {
     if (typeof toolOrId === 'string' || toolOrId instanceof String) {
       const Tool = this._registered[toolOrId];
       if (Tool) {
-        this._current = new Tool(this._g);
+        this._current = new Tool(this._g, this._config, this._env);
         this._current.on('complete', evt => this.emit('complete', evt));
         this._current.on('cancel', evt => this.emit('cancel', evt));
       }
@@ -51,9 +59,9 @@ class DrawingToolRegistry extends EventEmitter {
 
   /** TODO inefficient - maybe organize this in a different way **/
   forShape = svgShape => {
-    const inner = svgShape.querySelector('.inner');
+    const inner = svgShape.querySelector('.a9s-inner');
     const Tool = this._registered[inner.nodeName];
-    return Tool ? new Tool(this._g) : null;
+    return Tool ? new Tool(this._g, this._config, this._env) : null;
   }
 
   get current() {
