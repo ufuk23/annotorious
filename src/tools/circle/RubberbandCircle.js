@@ -74,12 +74,12 @@ export default class RubberbandCircle {
     r = Math.round(r * 100) / 100; // rounding
 	
     if (r > 4) {
-		this.inner.setAttribute('cx', cx);
-		this.inner.setAttribute('cy', cy);
-		this.inner.setAttribute('r', r);
-		this.outer.setAttribute('cx', cx);
-		this.outer.setAttribute('cy', cy);
-		this.outer.setAttribute('r', r);  
+        this.inner.setAttribute('cx', cx);
+        this.inner.setAttribute('cy', cy);
+        this.inner.setAttribute('r', r);
+        this.outer.setAttribute('cx', cx);
+        this.outer.setAttribute('cy', cy);
+        this.outer.setAttribute('r', r);  
     }
   }
 
