@@ -69,9 +69,9 @@ export default class RubberbandCircle {
     const p1 = this.points[0];
     const p2 = this.points[1];
     var cx = (p1[0] + p2[0]) / 2;
-	var cy = (p1[1] + p2[1]) / 2;
-	var r = Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)) / 2;
-	r = Math.round(r * 100) / 100; // rounding
+    var cy = (p1[1] + p2[1]) / 2;
+    var r = Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)) / 2;
+    r = Math.round(r * 100) / 100; // rounding
 	
     if (r > 4) {
 		this.inner.setAttribute('cx', cx);
